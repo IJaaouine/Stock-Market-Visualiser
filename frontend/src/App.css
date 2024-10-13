@@ -1,0 +1,202 @@
+
+/* General body style */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #181818, #181818);
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+/* Main application container */
+.App {
+  text-align: center;
+  padding: 20px;
+}
+
+/* Header styling */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(to bottom, #606569, rgb(39, 42, 49));
+  color: white;
+  padding: 20px;
+  border-radius: 50px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  font-size: 32px;
+  margin-bottom: 30px;
+}
+
+.controls {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.controls label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+}
+
+
+h2 {
+  font-size: 24px;
+  margin-top: 20px;
+  color: #0044cc;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+ul li {
+  font-size: 18px;
+  padding: 10px;
+  background: #f7f7f7;
+  margin: 10px 0;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+
+/* Time and Date Display - Copyright - 2024 akshat-patel28 (Akshat Patel) */ 
+.card {
+  position: relative;
+  width: 280px;
+  height: 150px;
+  background: linear-gradient(to bottom, #76767d, rgb(38, 42, 50));
+  border-radius: 50px;
+  box-shadow: rgb(0, 0, 0, 0.7) 5px 10px 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+  font-size: 16px;
+  margin-left: 20px;
+}
+
+.time-text {
+  font-size: 50px;
+  margin: 0 15px;
+  font-weight: 600;
+}
+
+.day-text {
+  font-size: 18px;
+  margin-left: 15px;
+  font-weight: 500;
+}
+
+
+h1 {
+  font-size: 36px;
+  flex-grow: 1;  /* Allow the title to take up available space */
+  text-align: center;  
+}
+
+/* Select dropdown styling */
+.select {
+  width: 200px;
+  cursor: pointer;
+  position: relative;
+  transition: 300ms;
+  border-radius: 20px;
+  color: white;
+  overflow: hidden;
+  text-align: left;
+}
+
+.selected {
+  background-color: #323741;
+  padding: 1em 1.5em;
+  margin-bottom: 5px;
+  border-radius: 100px;
+  position: relative;
+  z-index: 100000;
+  font-size: 15px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.arrow {
+  position: relative;
+  right: 0px;
+  height: 30px;
+  transform: rotate(-90deg);
+  width: 40px;
+  fill: white;
+  z-index: 100000;
+  transition: 300ms;
+}
+
+/* Options dropdown styling */
+.options {
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+  padding: 1em 1.5em;
+  background-color: #323741;
+  text-align: left;
+  position: relative;
+  top: -100px;
+  opacity: 0;
+  transition: 300ms;
+}
+
+.select:hover > .options {
+  opacity: 1;
+  top: 0;
+  background-color: #323741;
+}
+
+.select:hover > .selected .arrow {
+  transform: rotate(0deg);
+}
+
+/* Individual option styling */
+.option {
+  border-radius: 20px;
+  padding: 5px;
+  transition: 300ms;
+  background-color: #323741;
+  width: 150px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+/* Option hover effect */
+.option:hover {
+  background-color: #1f2123;
+}
+
+.options input[type="radio"] {
+  display: none;
+}
+
+.options label {
+  display: inline-block;
+  width: 100%;
+  cursor: pointer;
+  color: white;
+}
+
+.options label::before {
+  content: attr(data-txt);
+}
+
+.option-title {
+  color: white;
+  font-size: 10px;
+  text-align: left;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
