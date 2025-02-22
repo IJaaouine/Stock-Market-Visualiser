@@ -6,10 +6,10 @@
 
 ## Features
 
-- **Stock Selection**: Choose from multiple stocks including Apple, Google, Amazon, Tesla, Meta, and Microsoft.
+- **Stock Selection**: Choose from multiple stocks including Apple, Google, Amazon, Meta, and Microsoft.
 - **Chart Types**: Visualise data in different formats, including line, mountain, and candlestick charts.
-- **Time Frame Selection**: Analyse stock data over different time frames such as 1 month, 3 months, 6 months, 1 year, 2 years, and 5 years.
-- **Model Selection**: Generate predictions using multiple machine learning models like Support Vector Regression (SVR), Random Forest, Decision Tree, and Ridge Regression.
+- **Time Frame Selection**: Analyse stock data over different time frames such as 1 month, 6 months, 1 year, 2 years, and 5 years.
+- **Model Selection**: Generate predictions using machine learning models: Support Vector Regression (SVR) and Ridge Regression.
 - **Live Date & Time Display**: Shows the current date and time for a user-friendly interface.
 - **Responsive UI**: The plot automatically resizes to fit the user's window.
 
@@ -66,11 +66,9 @@
 
 ## Machine Learning Models
 
-The app uses several machine learning models to predict future stock prices:
+The app uses two machine learning models to predict future stock prices:
 
 - **Support Vector Regression (SVR)**
-- **Random Forest Regressor**
-- **Decision Tree Regressor**
 - **Ridge Regression**
 
 Each model analyses the closing prices of the selected stock to predict future price movements for half of the selected time frame.
