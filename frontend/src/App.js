@@ -202,7 +202,6 @@ function App() {
             <div className="option" onClick={() => setStock('AAPL')}>Apple - AAPL</div>
             <div className="option" onClick={() => setStock('GOOGL')}>Google - GOOGL</div>
             <div className="option" onClick={() => setStock('AMZN')}>Amazon - AMZN</div>
-            <div className="option" onClick={() => setStock('TSLA')}>Tesla - TSLA</div>
             <div className="option" onClick={() => setStock('NFLX')}>Netflix - NFLX</div>
             <div className="option" onClick={() => setStock('MSFT')}>Microsoft - MSFT</div>
             <div className="option" onClick={() => setStock('NVDA')}>NVIDIA - NVDA</div>
@@ -218,9 +217,7 @@ function App() {
           </div>
           <div className="options">
             <div className="option" onClick={() => setModel('svr')}>SVR</div>
-            <div className="option" onClick={() => setModel('random_forest')}>Random Forest Regression</div>
-            <div className="option" onClick={() => setModel('decision_tree')}>Decision Tree Regression</div>
-            <div className="option" onClick={() => setModel('ridge')}>Ridge Rgiiegression</div>
+            <div className="option" onClick={() => setModel('ridge')}>Ridge Regression</div>
           </div>
         </div>
         {/* Time Frame Selector */}
@@ -233,7 +230,6 @@ function App() {
           </div>
           <div className="options">
             <div className="option" onClick={() => setTimeFrame('1mo')}>1 Month</div>
-            <div className="option" onClick={() => setTimeFrame('3mo')}>3 Months</div>
             <div className="option" onClick={() => setTimeFrame('6mo')}>6 Months</div>
             <div className="option" onClick={() => setTimeFrame('1y')}>1 Year</div>
             <div className="option" onClick={() => setTimeFrame('2y')}>2 Years</div>
