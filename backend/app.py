@@ -6,6 +6,8 @@ from sklearn.tree import DecisionTreeRegressor  # Import Decision Tree Regressor
 import numpy as np
 from flask_cors import CORS
 import yfinance as yf 
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import PolynomialFeatures
 
 # Initialise the Flask application and enable CORS for cross-origin requests
 app = Flask(__name__)
@@ -15,24 +17,22 @@ CORS(app)
 @app.route('/stock-data', methods=['GET'])
 def get_stock_data():
     try:
-        # Extract query parameters from the request
         symbol = request.args.get('symbol')
         period = request.args.get('period')
         interval = request.args.get('interval')
 
-        # Validate the presence of all required parameters
-        if not symbol or not period or not interval:
-            return jsonify({'error': 'Missing required parameters'}), 400
+        print(f"Received request: symbol={symbol}, period={period}, interval={interval}")
 
-        # Fetch the stock data using yfinance
         stock = yf.Ticker(symbol)
         history = stock.history(period=period, interval=interval)
 
-        # Check if any data is returned
         if history.empty:
-            return jsonify({'error': 'No data found for the given stock symbol and period'}), 404
+            print(f"⚠️ No data found for {symbol} with period {period} and interval {interval}")
+            return jsonify({'error': f'No data found for {symbol}'}), 404
 
-        # Format the data to be returned to the frontend
+        print("✅ Data fetched successfully!")
+        print(history.head())  # Print the first 5 rows to confirm data retrieval
+
         data = {
             'dates': history.index.strftime('%Y-%m-%d').tolist(),
             'open_prices': history['Open'].tolist(),
@@ -43,10 +43,9 @@ def get_stock_data():
         return jsonify(data)
 
     except Exception as e:
-        # Log the error for debugging and return a meaningful error response
-        print(f"Error occurred while fetching stock data: {e}")
+        print(f"❌ Unexpected error: {e}")
         return jsonify({'error': str(e)}), 500
-    
+
 # Route to get predictions based on historical stock data
 @app.route('/predict', methods=['POST'])
 def get_predictions():
@@ -69,32 +68,35 @@ def get_predictions():
         model = None
 
         if model_type == 'svr':
-            # Support Vector Regressor (SVR)
-            model = SVR(kernel='rbf', C=100, gamma=0.1, epsilon=0.1)
-            model.fit(days, closing_prices.flatten())
+            # Scale the data (Fix applied here)
+            scaler = StandardScaler()
+            closing_prices_scaled = scaler.fit_transform(closing_prices)
 
-        elif model_type == 'random_forest':
-            # Random Forest Regressor
-            model = RandomForestRegressor(n_estimators=100, random_state=42)
-            model.fit(days, closing_prices.flatten())
+            # Support Vector Regressor (SVR) with improved hyperparameters
+            model = SVR(kernel='rbf', C=1000, gamma=0.01, epsilon=0.01)
+            model.fit(days, closing_prices_scaled.flatten())
 
-        elif model_type == 'decision_tree':
-            # Decision Tree Regressor
-            model = DecisionTreeRegressor(random_state=42)
-            model.fit(days, closing_prices.flatten())
+            # Predict future days and inverse transform predictions
+            future_days_array = np.array(range(len(closing_prices), len(closing_prices) + future_days)).reshape(-1, 1)
+            predictions_scaled = model.predict(future_days_array).reshape(-1, 1)
+            predictions = scaler.inverse_transform(predictions_scaled).flatten().tolist()
 
         elif model_type == 'ridge':
-            # Ridge Regression
+            # Ridge Regression with Polynomial Features
+            poly = PolynomialFeatures(degree=3)  # Degree 3 for better flexibility
+            days_poly = poly.fit_transform(days)
+            
             model = Ridge(alpha=1.0)
-            model.fit(days, closing_prices)
+            model.fit(days_poly, closing_prices)
 
-        # Predict future days
-        future_days_array = np.array(range(len(closing_prices), len(closing_prices) + future_days)).reshape(-1, 1)
-        predictions = model.predict(future_days_array).flatten().tolist()
-
+            future_days_array = np.array(range(len(closing_prices), len(closing_prices) + future_days)).reshape(-1, 1)
+            future_days_poly = poly.transform(future_days_array)
+            
+            predictions = model.predict(future_days_poly).flatten().tolist()
+            
         # Ensure no negative predictions are returned (as prices cannot be negative)
         predictions = [max(0, p) for p in predictions]
-
+        
         return jsonify({'predictions': predictions})
 
     except Exception as e:
